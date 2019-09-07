@@ -1,5 +1,6 @@
 package org.cod.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,9 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
+	
+	@Value("${base.file.path}")
+	private String baseFilePath;
 
 	@Bean("messageSource")
 	public MessageSource messageSource() {
@@ -39,6 +43,6 @@ public class AppConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/files/**").addResourceLocations("file:///E:/workspace/DAN/files/");
+		registry.addResourceHandler("/files/**").addResourceLocations("file:///"+baseFilePath);
 	}
 }

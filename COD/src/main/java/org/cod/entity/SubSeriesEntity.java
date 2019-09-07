@@ -22,5 +22,8 @@ public class SubSeriesEntity extends BaseEntity implements Serializable {
 
 	@Column(name = "series_id")
 	private Long seriesId;
+	
+	@Column(name = "episode")
+	private String episode;
 
 }

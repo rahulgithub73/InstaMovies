@@ -21,6 +21,33 @@
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
 
+<style type="text/css">
+.centered1 {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	color: white;
+	font-weight: bold;
+	font-size: 2.4vw;
+	transform: translate(-50%, -50%);
+}
+
+.centered2 {
+	position: absolute;
+	top: 50%;
+	right: 10%;
+	color: white;
+	font-weight: bold;
+	font-size: 2.4vw;
+	transform: translate(-50%, -50%);
+}
+
+.top-buffer {
+	margin-top: 10px;
+}
+</style>
+
+
 </head>
 <body id="page-top">
 	<nav
@@ -30,13 +57,14 @@
 			id="sidebarToggle">
 			<i class="fas fa-bars"></i>
 		</button>
-		&nbsp;&nbsp; <a class="navbar-brand mr-1" href="index.html"><img
-			class="img-fluid" alt="" src="../img/logo.png"></a>
+		&nbsp;&nbsp; <a class="navbar-brand mr-1" href="/paginationIndex"><img
+			class="img-fluid" alt="" src="img/logo.png"></a>
 		<!-- Navbar Search -->
 		<form
 			class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search for...">
+				<input type="text" class="form-control" name="keyword"
+					th:value="${keyword}" placeholder="Search for...">
 				<div class="input-group-append">
 					<button class="btn btn-light" type="button">
 						<i class="fas fa-search"></i>
@@ -45,18 +73,22 @@
 			</div>
 		</form>
 		<!-- Navbar -->
-		<ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
+		<ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar ">
+
+			<li class="list-group-item"
+				style="border: 0px; color: black; font-size: 18px;"><span
+				th:text="${session.mobile}" th:unless="${session == null}"></span></li>
 
 			<li class="nav-item dropdown no-arrow osahan-right-navbar-user">
 				<a class="nav-link dropdown-toggle user-dropdown-link" href="#"
 				id="userDropdown" role="button" data-toggle="dropdown"
 				aria-haspopup="true" aria-expanded="false"> <img alt="Avatar"
-					src="../img/user.png"> ADMIN
+					src="../img/userAv.png">
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
-					
-					<div class="dropdown-divider"></div>
+
+
 					<a class="dropdown-item" href="#" data-toggle="modal"
 						data-target="#logoutModal"><i
 						class="fas fa-fw fa-sign-out-alt"></i> &nbsp; Logout</a>
@@ -71,17 +103,18 @@
 				href="/paginationIndex"> <i class="fas fa-fw fa-home"></i> <span>Home</span>
 			</a></li>
 			<li class="nav-item"><a class="nav-link"
-				href="/paginationMovies"> <i class="fas fa-fw fa-users"></i> <span>Movies</span>
+				href="/paginationMovies"> <i class="fa fa-film"
+					aria-hidden="true"></i> <span>Movies</span>
 			</a></li>
 			<li class="nav-item"><a class="nav-link"
-				href="/paginationSeries"> <i class="fas fa-fw fa-user-alt"></i>
-					<span>Series</span>
+				href="/paginationSeries"> <i class="fa fa-video"
+					aria-hidden="true"></i> <span>Series</span>
 			</a></li>
 			<li class="nav-item"><a class="nav-link" href="/paginationMusic">
-					<i class="fas fa-fw fa-video"></i> <span>Music</span>
+					<i class="fa fa-music" aria-hidden="true"></i> <span>Music</span>
 			</a></li>
 			<li class="nav-item"><a class="nav-link" href="/paginationBooks">
-					<i class="fas fa-fw fa-cloud-upload-alt"></i> <span>Books</span>
+					<i class="fa fa-book" aria-hidden="true"></i> <span>Books</span>
 			</a></li>
 			<!-- <li class="nav-item">
                <a class="nav-link" href="/advertisement">
@@ -89,17 +122,19 @@
                <span>Advertisement</span>
                </a>
             </li> -->
-			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle" href="categories.html"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <i class="fas fa-fw fa-list-alt"></i> <span>Train
-						Info</span>
-			</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="/trainRunningInfo">Train Running
-						Info</a> <a class="dropdown-item" href="/trainTimeTable">Train
-						Time Table</a>
-				</div></li>
+
+			<li class="nav-item"><a class="nav-link"
+				href="/trainRunningInfo"> <i class="fas fa-train"
+					aria-hidden="true"></i><span>Train Running Info</span>
+			</a></li>
+
+			<li class="nav-item"><a class="nav-link" href="/trainTimeTable">
+					<i class="fa fa-subway" aria-hidden="true"></i><span>Train
+						Time Table</span>
+			</a></li>
+
+
+
 
 		</ul>
 		<div id="content-wrapper">
@@ -108,9 +143,15 @@
 					<div class="row mb-4">
 						<div class="col-md-12">
 							<div class="single-video">
-								<a href="#"> <img class="img-fluid" width="50%" height="200"
-									src="img/train.png">
+								<a href="#"> <img class="img-fluid" width="100%"
+									height="auto" src="img/train2.png">
 								</a>
+							</div>
+							<div class="centered1" th:if="${trainTime != null}">
+								<span th:text="${trainTime.trainName}"> </span>
+							</div>
+							<div class="centered2" th:if="${trainTime != null}">
+								<span th:text="${trainTime.trainNo}"> </span>
 							</div>
 						</div>
 
@@ -120,38 +161,54 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="single-video-left">
-								<div class="single-video-title box mb-3" th:if="${not #lists.isEmpty(trainTimeTables)}">
-									<h2>
-										<span th:text="${trainTime.trainName}"> </span>&nbsp&nbsp&nbsp&nbsp
-										 <span th:text="${trainTime.trainNo}"> </span>
-										
-									</h2>
-									
-								</div>
+
 
 								<div class="single-video-info-content box mb-3">
 
-									<div class="container">
-										<div th:if="${not #lists.isEmpty(trainTimeTables)}">
-											
-											<table class="table table-striped">
-												<tr>
-													<th>Station</th>
-													<th>ETA</th>
-													<th>ETD</th>
-													<th>Stop Time</th>
-													<th>Distance</th>
-													
-												</tr>
-												<tr th:each="trainTimeTable : ${trainTimeTables}">
-													<td th:text="${trainTimeTable.stationName}"></td>
-													<td th:text="${trainTimeTable.estimatedTimeArrival}"></td>
-													<td th:text="${trainTimeTable.estimatedTimeDeparture}"></td>
-													<td th:text="${trainTimeTable.haltTime}"></td>
-													<td th:text="${trainTimeTable.distanceFromSource}"></td>
-													
-												</tr>
-											</table>
+									<div class="container"
+										th:if=" ${#lists.isEmpty(trainTimeTables)}">
+										<h6 style="color:red">Train time table not found !!</h6>
+										</div>
+										
+									<div class="container"
+										th:if=" ${not #lists.isEmpty(trainTimeTables)}">
+
+
+										<div class="row"
+											style="text-align: center; color: black; font-weight: bold; font-size: 16px">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">Station</div>
+											<div class="col-sm-2">ETA</div>
+											<div class="col-sm-2">ETD</div>
+											<div class="col-sm-2">Stop Time</div>
+											<div class="col-sm-2">Distance</div>
+										</div>
+
+
+
+										<div class="row top-buffer"
+											th:if="${not #lists.isEmpty(trainTimeTables)}"
+											th:each="trainTimeTable : ${trainTimeTables}"
+											style="background: #eceff0 none repeat scroll 0 0; padding: 10px; border-radius: 20px; text-align: center; font-size: 16px">
+											<div class="col-sm-2">
+												<img class="img-fluid" width="40%" height="40%"
+													src="img/trainicon.png">
+											</div>
+											<div class="col-sm-2" style="margin-top: 1%">
+												<span th:text="${trainTimeTable.stationName}"></span>
+											</div>
+											<div class="col-sm-2" style="margin-top: 1%">
+												<span th:text="${trainTimeTable.estimatedTimeArrival}"></span>
+											</div>
+											<div class="col-sm-2" style="margin-top: 1%">
+												<span th:text="${trainTimeTable.estimatedTimeDeparture}"></span>
+											</div>
+											<div class="col-sm-2" style="margin-top: 1%">
+												<span th:text="${trainTimeTable.haltTime}"></span>
+											</div>
+											<div class="col-sm-2" style="margin-top: 1%">
+												<span th:text="${trainTimeTable.distanceFromSource}"></span>
+											</div>
 										</div>
 
 									</div>
@@ -165,18 +222,21 @@
 			</div>
 			<!-- /.container-fluid -->
 			<!-- Sticky Footer -->
-			<footer class="sticky-footer" >
-               <div class="container">
-                  <div class="row no-gutters">
-                     <div class="col-md-12" style="text-align: center;">
-                        <p class="mt-1 mb-0">&copy; Copyright 2019 <strong class="text-dark">DAN Eletronic System Pvt. Ltd.</strong>. All Rights Reserved<br>
-                           
-                        </p>
-                     </div>
-                     
-                  </div>
-               </div>
-            </footer>
+			<footer class="mt-4 sticky-footer">
+				<div class="container">
+					<div class="row no-gutters">
+						<div class="col-md-12"
+							style="text-align: center; color: black; font-size: 1.0vw;">
+							<p class="mt-1 mb-0">
+								&copy; Copyright 2019 <strong class="text-dark">DAN
+									Eletronic System Pvt. Ltd.</strong> All Rights Reserved<br>
+
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</footer>
 		</div>
 		<!-- /.content-wrapper -->
 	</div>

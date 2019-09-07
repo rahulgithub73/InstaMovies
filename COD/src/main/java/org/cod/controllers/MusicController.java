@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MusicController {
@@ -31,7 +32,7 @@ public class MusicController {
 		model.addAttribute("page", page);
 		return "music";
 	}
-	
+
 	@GetMapping(value = "/musicDetailPage/{id}")
 	public String movieDetailPage(Model model, @PathVariable Long id) {
 		Optional<MusicEntity> list = musicRepository.findById(id);
@@ -41,7 +42,15 @@ public class MusicController {
 			return "musicDetailPage";
 		}
 
-		return "music";
+		return "musicDetailPage";
 
+	}
+
+	@GetMapping("/musicSearch")
+	public String serch(@PageableDefault(size = 10) Pageable pageable, Model model,
+			@RequestParam(value = "keyword") String keyword) {
+		Page<MusicEntity> page = musicRepository.searchByKeywords(keyword, pageable);
+		model.addAttribute("page", page);
+		return "music";
 	}
 }

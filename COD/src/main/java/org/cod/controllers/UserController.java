@@ -2,6 +2,8 @@ package org.cod.controllers;
 
 import java.time.LocalDateTime;
 
+import javax.servlet.http.HttpSession;
+
 import org.cod.entity.MoviesEntity;
 import org.cod.entity.UserEntity;
 import org.cod.repository.MovieRepository;
@@ -25,7 +27,7 @@ public class UserController {
 	MovieRepository movieRepository;
 
 	@PostMapping(value = "login")
-	public String login(UserEntity userEntity, Model model, @PageableDefault(size = 10) Pageable pageable) {
+	public String login(UserEntity userEntity, Model model, @PageableDefault(size = 10) Pageable pageable,HttpSession session) {
 
 		UserEntity userExits = userRepository.findByPhoneNo(userEntity.getPhoneNo());
 
@@ -44,6 +46,8 @@ public class UserController {
 		Page<MoviesEntity> page = movieRepository.findAll(pageable);
 		model.addAttribute("page", page);
 
+		session.setAttribute("mobile", userEntity.getPhoneNo());
+		
 		return "index";
 	}
 

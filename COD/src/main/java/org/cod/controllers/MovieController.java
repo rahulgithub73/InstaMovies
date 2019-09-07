@@ -35,7 +35,7 @@ public class MovieController {
 			return "movieDetailPage";
 		}
 
-		return "movies";
+		return "movieDetailPage";
 
 	}
 

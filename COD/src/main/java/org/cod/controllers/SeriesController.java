@@ -1,5 +1,6 @@
 package org.cod.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.cod.entity.SeriesEntity;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SeriesController {
@@ -29,19 +31,25 @@ public class SeriesController {
 		model.addAttribute("series", seriesRepository.findAll());
 		return "series";
 	}
-	
+
 	@GetMapping("/paginationSeries")
 	public String getEmployees(@PageableDefault(size = 10) Pageable pageable, Model model) {
 		Page<SeriesEntity> page = seriesRepository.findAll(pageable);
 		model.addAttribute("page", page);
 		return "series";
 	}
-	
-	
 
 	@GetMapping(value = "/subSeries/{id}")
-	public String subSeries(Model model,@PathVariable Long id) {
-		model.addAttribute("series", subSeriesRepository.findBySeriesId(id));
+	public String subSeries(Model model, @PathVariable Long id) {
+
+		List<SubSeriesEntity> list = subSeriesRepository.findBySeriesId(id);
+		model.addAttribute("series", list);
+
+		if (list != null && list.size() > 0) {
+			model.addAttribute("serie", list.get(0));
+			return "subSeries";
+		}
+
 		return "subSeries";
 	}
 
@@ -54,8 +62,16 @@ public class SeriesController {
 			return "seriesDetailPage";
 		}
 
-		return "series";
+		return "seriesDetailPage";
 
+	}
+
+	@GetMapping("/seriesSearch")
+	public String serch(@PageableDefault(size = 10) Pageable pageable, Model model,
+			@RequestParam(value = "keyword") String keyword) {
+		Page<SeriesEntity> page = seriesRepository.searchByKeywords(keyword, pageable);
+		model.addAttribute("page", page);
+		return "series";
 	}
 
 }
