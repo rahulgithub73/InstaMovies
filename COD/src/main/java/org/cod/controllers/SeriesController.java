@@ -47,7 +47,7 @@ public class SeriesController {
 
 		if (list != null && list.size() > 0) {
 			model.addAttribute("serie", list.get(0));
-			return "subSeries";
+
 		}
 
 		return "subSeries";

@@ -1,8 +1,10 @@
 package org.cod.controllers;
 
-import java.util.Optional;
+import java.util.List;
 
+import org.cod.entity.AlbumEntity;
 import org.cod.entity.MusicEntity;
+import org.cod.repository.AlbumRepository;
 import org.cod.repository.MusicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,26 +22,29 @@ public class MusicController {
 	@Autowired
 	MusicRepository musicRepository;
 
+	@Autowired
+	AlbumRepository albumRepository;
+
 	@GetMapping(value = "/music")
 	public String music(Model model) {
-		model.addAttribute("music", musicRepository.findAll());
+		model.addAttribute("music", albumRepository.findAll());
 		return "music";
 	}
 
 	@GetMapping("/paginationMusic")
 	public String getEmployees(@PageableDefault(size = 10) Pageable pageable, Model model) {
-		Page<MusicEntity> page = musicRepository.findAll(pageable);
+		Page<AlbumEntity> page = albumRepository.findAll(pageable);
 		model.addAttribute("page", page);
 		return "music";
 	}
 
 	@GetMapping(value = "/musicDetailPage/{id}")
 	public String movieDetailPage(Model model, @PathVariable Long id) {
-		Optional<MusicEntity> list = musicRepository.findById(id);
+		List<MusicEntity> list = musicRepository.findByAlbumId(id);
+		model.addAttribute("musics", list);
+		if (list != null && list.size() > 0) {
+			model.addAttribute("music", list.get(0));
 
-		if (list.isPresent()) {
-			model.addAttribute("music", list.get());
-			return "musicDetailPage";
 		}
 
 		return "musicDetailPage";
@@ -49,7 +54,7 @@ public class MusicController {
 	@GetMapping("/musicSearch")
 	public String serch(@PageableDefault(size = 10) Pageable pageable, Model model,
 			@RequestParam(value = "keyword") String keyword) {
-		Page<MusicEntity> page = musicRepository.searchByKeywords(keyword, pageable);
+		Page<AlbumEntity> page = albumRepository.searchByKeywords(keyword, pageable);
 		model.addAttribute("page", page);
 		return "music";
 	}

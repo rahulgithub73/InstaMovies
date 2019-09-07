@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="description" content="Askbootstrap">
-      <meta name="author" content="Askbootstrap">
-      <title>COD</title>
-      <!-- Favicon Icon -->
-      <link rel="icon" type="image/png" href="img/favicon.png">
-      <!-- Bootstrap core CSS-->
-      <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-      <!-- Custom fonts for this template-->
-      <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-      <!-- Custom styles for this template-->
-      <link href="css/osahan.css" rel="stylesheet">
-      <!-- Owl Carousel -->
-      <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
-      <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-      
-      <style>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Askbootstrap">
+<meta name="author" content="Askbootstrap">
+<title>COD</title>
+<!-- Favicon Icon -->
+<link rel="icon" type="image/png" href="img/favicon.png">
+<!-- Bootstrap core CSS-->
+<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<!-- Custom styles for this template-->
+<link href="css/osahan.css" rel="stylesheet">
+<!-- Owl Carousel -->
+<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+
+<style>
+
+
 .pagination-div {
 	user-select: none;
 }
@@ -36,9 +40,9 @@ span.selected {
 	background: #ccf;
 }
 </style>
-   </head>
-   <body id="page-top">
-     	<nav
+</head>
+<body id="page-top">
+	<nav
 		class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
 		&nbsp;&nbsp;
 		<button class="btn btn-link btn-sm text-secondary order-1 order-sm-0"
@@ -125,66 +129,78 @@ span.selected {
 
 
 		</ul>
-         <div id="content-wrapper">
-            <div class="container-fluid pb-0">
-               <div class="top-mobile-search">
-                  <div class="row">
-                     <div class="col-md-12">   
-                        <form class="mobile-search" th:action="@{/musicSearch}" method="get">
-                           <div class="input-group">
-                             <input type="text" name="keyword"
-					th:value="${keyword}" placeholder="Search for..." class="form-control">
-                               <div class="input-group-append">
-                                 <button type="submit" class="btn btn-dark"><i class="fas fa-search"></i></button>
-                               </div>
-                           </div>
-                        </form>   
-                     </div>
-                  </div>
-               </div>
-            
-			<div class="video-block section-padding">
-			       <a href="#"> <img class="img-fluid" width="100%" height="300" src="img/music.png"> </a>
-                    
-					 </div>
-			
-               <hr>
-               <div class="video-block section-padding">
-                  <div class="row">
-                     <div class="col-md-12">
-							<div class="main-title" th:if=" ${not #lists.isEmpty(page.content)}">
+		<div id="content-wrapper">
+			<div class="container-fluid pb-0">
+				<div class="top-mobile-search">
+					<div class="row">
+						<div class="col-md-12">
+							<form class="mobile-search" th:action="@{/musicSearch}"
+								method="get">
+								<div class="input-group">
+									<input type="text" name="keyword" th:value="${keyword}"
+										placeholder="Search for..." class="form-control">
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-dark">
+											<i class="fas fa-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="video-block section-padding">
+					<a href="#"> <img class="img-fluid" width="100%" height="300"
+						src="img/music.png">
+					</a>
+
+				</div>
+
+				
+
+				<hr>
+				<div class="video-block section-padding">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="main-title"
+								th:if=" ${not #lists.isEmpty(page.content)}">
 								<h6>Music</h6>
 							</div>
 							<div class="main-title" th:if=" ${#lists.isEmpty(page.content)}">
-								<h6 style="color:red">Music not found !!</h6>
+								<h6 style="color: red">Music not found !!</h6>
 							</div>
 						</div>
-                     
-                     
-                     <div class="col-xl-3 col-sm-6 mb-3"  th:each="music : ${page.content}">
-                        <div class="video-card">
-                           <div class="video-card-image">
-                              <a class="play-icon" th:href="${'musicDetailPage/'+music.id}"><i class="fas fa-play-circle"></i></a>
-                              <a th:href="${'musicDetailPage/'+music.id}"><img class="img-fluid" th:src="${music.thumpnailPath}" alt=""></a>
-                              
-                           </div>
-                           <div class="video-card-body">
-                              <div class="video-title">
-                                 <a href="#"><span th:text="${music.name}"> </span></a>
-                              </div>
-                             
-                              <div class="video-view">
-										<span th:text="${music.imdbRating}+' / 5.0 Rating'"> </span>
-										&nbsp;<img alt="Avatar" src="../img/calendarIcon.png"> &nbsp;&nbsp; <span
-											th:text="${music.releasaeYear}"> </span>
+
+
+						<div class="col-xl-3 col-sm-6 mb-3"
+							th:each="music : ${page.content}">
+							<div class="video-card">
+								<div class="video-card-image">
+									<a class="play-icon" th:href="${'musicDetailPage/'+music.id}"><i
+										class="fas fa-play-circle"></i></a> <a
+										th:href="${'musicDetailPage/'+music.id}"><img
+										class="img-fluid" th:src="${music.thumpnailPath}" alt=""></a>
+
+								</div>
+								<div class="video-card-body">
+									<div class="video-title">
+										<a href="#"><span th:text="${music.name}"> </span></a>
 									</div>
-                           </div>
-                        </div>
-                     </div>
-                    
-                  </div>
-                  
-                   <div class="pagination-div" align="center"  th:if=" ${not #lists.isEmpty(page.content)}">
+
+									<div class="video-view">
+										<span th:text="${music.imdbRating}+' / 5.0 Rating'"> </span>
+										&nbsp;<img alt="Avatar" src="../img/calendarIcon.png">
+										&nbsp;&nbsp; <span th:text="${music.releasaeYear}"> </span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="pagination-div" align="center"
+						th:if=" ${not #lists.isEmpty(page.content)}">
 
 						<span th:if="${page.hasPrevious()}"> <a
 							th:href="@{/paginationMusic(page=${page.number-1},size=${page.size})}">Previous</a>
@@ -200,11 +216,11 @@ span.selected {
 							th:href="@{/paginationMusic(page=${page.number+1},size=${page.size})}">Next</a>
 						</span>
 					</div>
-               </div>
-               </div>
-               <hr class="mt-0">
-            
-            <footer class="mt-4 sticky-footer">
+				</div>
+			</div>
+			<hr class="mt-0">
+
+			<footer class="mt-4 sticky-footer">
 				<div class="container">
 					<div class="row no-gutters">
 						<div class="col-md-12"
@@ -219,41 +235,46 @@ span.selected {
 					</div>
 				</div>
 			</footer>
-            </div>
-         </div>
-         <!-- /.content-wrapper -->
-      
-      <!-- /#wrapper -->
-      <!-- Scroll to Top Button-->
-      <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-      </a>
-      <!-- Logout Modal-->
-      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                  </button>
-               </div>
-               <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-               <div class="modal-footer">
-                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                  <a class="btn btn-primary" href="login.html">Logout</a>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Bootstrap core JavaScript-->
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <!-- Core plugin JavaScript-->
-      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-      <!-- Owl Carousel -->
-      <script src="vendor/owl-carousel/owl.carousel.js"></script>
-      <!-- Custom scripts for all pages-->
-      <script src="js/custom.js"></script>
-   </body>
+		</div>
+	</div>
+	<!-- /.content-wrapper -->
+
+	<!-- /#wrapper -->
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Owl Carousel -->
+	<script src="vendor/owl-carousel/owl.carousel.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="js/custom.js"></script>
+</body>
 </html>
