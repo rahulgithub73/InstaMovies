@@ -26,6 +26,62 @@ video {
 	height: 320px;
 }
 </style>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    var pathM = /*[[${subSeries.path}]]*/ 'default';
+    
+    var manifestUri ="/"+pathM;
+        //'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
+
+    function initApp() {
+      // Install built-in polyfills to patch browser incompatibilities.
+      shaka.polyfill.installAll();
+
+      // Check to see if the browser supports the basic APIs Shaka needs.
+      if (shaka.Player.isBrowserSupported()) {
+        // Everything looks good!
+        initPlayer();
+      } else {
+        // This browser does not have the minimum set of APIs we need.
+        console.error('Browser not supported!');
+      }
+    }
+
+    function initPlayer() {
+      // Create a Player instance.
+      var video = document.getElementById('video');
+      var player = new shaka.Player(video);
+
+      // Attach player to the window to make it easy to access in the JS console.
+      window.player = player;
+
+      // Listen for error events.
+      player.addEventListener('error', onErrorEvent);
+
+      // Try to load a manifest.
+      // This is an asynchronous process.
+      player.load(manifestUri).then(function() {
+        // This runs if the asynchronous load is successful.
+        console.log('The video has now been loaded!');
+      }).catch(onError);  // onError is executed if the asynchronous load fails.
+    }
+
+    function onErrorEvent(event) {
+      // Extract the shaka.util.Error object from the event.
+      onError(event.detail);
+    }
+
+    function onError(error) {
+      // Log the error.
+      console.error('Error code', error.code, 'object', error);
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+
+/*]]>*/
+</script>
 </head>
 <body id="page-top">
 	<nav
@@ -123,11 +179,12 @@ video {
 							<div class="single-video" th:if="${subSeries != null}">
 
 								<div>
-									<video data-dashjs-player autoplay
-										th:src="${'/'+subSeries.path}" controls></video>
-									<!-- </div>
-                              <iframe width="100%" height="215" src="https://www.youtube-nocookie.com/embed/8LWZSGNjuF0?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        </div> -->
+									<!-- <video data-dashjs-player autoplay
+										th:src="${'/'+subSeries.path}" controls></video> -->
+										<video id="video" width="100%"
+										
+										controls autoplay></video>
+									
 								</div>
 							</div>
 
@@ -255,5 +312,6 @@ video {
 		<!-- Custom scripts for all pages-->
 		<script src="../js/custom.js"></script>
 		<script src="../js/dash_all_min.js"></script>
+		<script src="../js/shaka-player.compiled.js"></script>
 </body>
 </html>
