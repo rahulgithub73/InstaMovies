@@ -21,62 +21,13 @@
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
 
-<script type="text/javascript"
-	src="../js/jquery-1.10.2.min.js"></script>
+<!-- Include Amplitude JS -->
+<script type="text/javascript" src="../js/amplitude.min.js"></script>
 
-<script type="text/javascript"
-	src="../js/mediaelement-and-player.min.js"></script>
-<script type="text/javascript" src="../js/mep-feature-playlist.js"></script>
-
-
-<link type="text/css" rel="stylesheet" href="http://cdn.jsdelivr.net/mediaelement/2.13.1/mediaelementplayer.min.css" />
-<link type="text/css" rel="stylesheet"
-	href="../css/mep-feature-playlist.css" />
+<!-- Include Style Sheet -->
+<link rel="stylesheet" type="text/css" href="../css/app.css" />
 
 
-<style>
-#mediawrapper {
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 1px;
-	width: 830px;
-}
-
-h1 {
-	text-align: center;
-}
-
-.tagline {
-	text-align: center;
-}
-
-.test img {
-	width: 100%;
-	height: 200px;
-	border-radius: 20px;
-}
-
-
-</style>
-
-<script>
-	$(function() {
-		$('video,audio').mediaelementplayer({
-			loop : true,
-			shuffle : true,
-			playlist : true,
-			audioHeight : 30,
-			playlistposition : 'bottom',
-			features : ['playlistfeature', 'prevtrack', 'playpause', 'nexttrack', 'loop', 'shuffle', 'playlist', 'current', 'progress', 'duration', 'volume'],
-			keyActions : []
-		});
-
-	});
-</script>
-
-
-<style id="jsbin-css">
-</style>
 </head>
 <body id="page-top">
 	<nav
@@ -166,9 +117,9 @@ h1 {
 
 
 		</ul>
-		<div id="content-wrapper" style="height:600px">
+		<div id="content-wrapper">
 			<div class="container-fluid pb-0">
-				<div class="video-block-right-list section-padding">
+				<!-- <div class="video-block-right-list section-padding">
 					<div class="row mb-4">
 						<div class="col-md-12">
 							<div class="test">
@@ -180,7 +131,7 @@ h1 {
 						</div>
 
 					</div>
-				</div>
+				</div> -->
 				<div class="video-block section-padding">
 					<div class="row">
 						<div class="col-md-12">
@@ -189,35 +140,120 @@ h1 {
 							</div>
 							<div class="single-video-left" th:if="${music != null}">
 
-								<div  id="mediawrapper">
 
+								<!-- Blue Playlist Container -->
+								<div id="blue-playlist-container">
 
-									<audio id="mejs" type="audio/mp3" controls="controls" >
+									<!-- Amplitude Player -->
+									<div id="amplitude-player">
+
+										<!-- Left Side Player -->
+										<div id="amplitude-left">
+											<img th:if="${music != null}" data-amplitude-song-info="${'../'+music.thumpnailPath}"  th:src="${'../'+music.thumpnailPath}"/>
+											<div id="player-left-bottom">
+												<div id="time-container">
+													<span class="current-time"> <span
+														class="amplitude-current-minutes"></span>:<span
+														class="amplitude-current-seconds"></span>
+													</span>
+													<div id="progress-container">
+														<input type="range" class="amplitude-song-slider" />
+														<progress id="song-played-progress"
+															class="amplitude-song-played-progress"></progress>
+														<progress id="song-buffered-progress"
+															class="amplitude-buffered-progress" value="0"></progress>
+													</div>
+													<span class="duration"> <span
+														class="amplitude-duration-minutes"></span>:<span
+														class="amplitude-duration-seconds"></span>
+													</span>
+												</div>
+
+												<div id="control-container">
+													<div id="repeat-container">
+														<div class="amplitude-repeat" id="repeat"></div>
+														<div class="amplitude-shuffle amplitude-shuffle-off"
+															id="shuffle"></div>
+													</div>
+
+													<div id="central-control-container">
+														<div id="central-controls">
+															<div class="amplitude-prev" id="previous"></div>
+															<div class="amplitude-play-pause" id="play-pause"></div>
+															<div class="amplitude-next" id="next"></div>
+														</div>
+													</div>
+
+													<div id="volume-container">
+														<div class="volume-controls">
+															<div class="amplitude-mute amplitude-not-muted"></div>
+															<input type="range" class="amplitude-volume-slider" />
+															<div class="ms-range-fix"></div>
+														</div>
+														<div class="amplitude-shuffle amplitude-shuffle-off"
+															id="shuffle-right"></div>
+													</div>
+												</div>
+
+												<div id="meta-container">
+													<span data-amplitude-song-info="name" class="song-name"></span>
+
+													<div class="song-artist-album">
+														<span data-amplitude-song-info="artist"></span> <span
+															data-amplitude-song-info="album"></span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Left Side Player -->
 										
-										
-										<Source  th:each="mu : ${musics}"
-											th:src="${'../'+mu.path}"
-											th:title="${mu.name}"></Source>
-										
+										<input type="hidden" id="songs" th:value="${songs}">  
 
-									</audio>
-
-
-
+										<!-- Right Side Player -->
+										<div id="amplitude-right">
+											<div
+												class="song amplitude-song-container amplitude-play-pause"
+												th:data-amplitude-song-index="${mu.id}"  th:each="mu : ${musics}">
+												<div class="song-now-playing-icon-container">
+													<div class="play-button-container"></div>
+													<img class="now-playing" src="../img/now-playing.svg" />
+												</div>
+												<div class="song-meta-data">
+													<span class="song-title" th:text="${mu.name}"></span> 
+													<span class="song-artist" th:text="${mu.director}">Ancient Astronauts</span>
+												</div>
+												<a
+													th:src="${'../'+mu.path}"
+													class="bandcamp-link" target="_blank"> <img
+													class="bandcamp-grey" src="../img/bandcamp-grey.svg" /> <img
+													class="bandcamp-white" src="../img/bandcamp-white.svg" />
+												</a> <span class="song-duration" th:text="${mu.runtimeMinutes}"></span>
+											</div>
+											
+										</div>
+										<!-- End Right Side Player -->
+									</div>
+									<!-- End Amplitdue Player -->
 								</div>
+
+								<!--
+			Include UX functions JS
+
+			NOTE: These are for handling things outside of the scope of AmplitudeJS
+		-->
+
 
 
 							</div>
 						</div>
 
-
-
+						
 					</div>
 				</div>
 			</div>
 			<!-- /.container-fluid -->
 			<!-- Sticky Footer -->
-			<!--  <footer class="mt-4 sticky-footer" >
+			<footer class="mt-4 sticky-footer">
 				<div class="container">
 					<div class="row no-gutters">
 						<div class="col-md-12"
@@ -231,7 +267,7 @@ h1 {
 
 					</div>
 				</div>
-			</footer>  -->
+			</footer>
 		</div>
 		<!-- /.content-wrapper -->
 	</div>
@@ -264,13 +300,14 @@ h1 {
 		</div>
 	</div>
 	<!-- Bootstrap core JavaScript-->
-	<!-- <script src="../vendor/jquery/jquery.min.js"></script>
-	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+	<script src="../vendor/jquery/jquery.min.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Core plugin JavaScript-->
 	<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Owl Carousel -->
 	<script src="../vendor/owl-carousel/owl.carousel.js"></script>
 	<!-- Custom scripts for all pages-->
-	<!-- <script src="../js/custom.js"></script> -->
+	<script src="../js/custom.js"></script>
+	<script type="text/javascript" src="../js/functions.js"></script>
 </body>
 </html>

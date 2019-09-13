@@ -20,6 +20,11 @@
 <!-- Owl Carousel -->
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
+
+
+
+<link rel="stylesheet" href="../css/controls.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
 video {
 	width: 100%;
@@ -53,13 +58,24 @@ video {
     function initPlayer() {
       // Create a Player instance.
       var video = document.getElementById('video');
+      const videoContainer = document.getElementById('videoContainer');
       var player = new shaka.Player(video);
 
-      // Attach player to the window to make it easy to access in the JS console.
-      window.player = player;
+      const uiConfig = {};
+      //uiConfig['controlPanelElements'] = ['rewind', 'fast_forward'];
+      uiConfig['controlPanelElements'] = ['mute', 'volume', 'time_and_duration', 'fullscreen', 'rewind', 'ast_forward', 'overflow_menu', ];
+      const ui = new shaka.ui.Overlay(player, videoContainer, video, uiConfig);
+      const controls = ui.getControls();
 
+      
+      
+   // Attach player to the window to make it easy to access in the JS console.
+      window.player = player;
+      
       // Listen for error events.
       player.addEventListener('error', onErrorEvent);
+      controls.addEventListener('error', onUIErrorEvent);
+      controls.addEventListener('caststatuschanged', onCastStatusChanged);
 
       // Try to load a manifest.
       // This is an asynchronous process.
@@ -73,6 +89,14 @@ video {
       // Extract the shaka.util.Error object from the event.
       onError(event.detail);
     }
+    
+    function onUIErrorEvent(event) {
+    	  onError(event.detail);
+    	}
+
+    	function onCastStatusChanged(event) {
+    		onError(event.detail);
+    	}
 
     function onError(error) {
       // Log the error.
@@ -80,6 +104,7 @@ video {
     }
 
     document.addEventListener('DOMContentLoaded', initApp);
+    
 
 /*]]>*/
 </script>
@@ -177,7 +202,7 @@ video {
 				<div class="video-block-right-list section-padding">
 					<div class="row mb-4">
 						<div class="col-md-12">
-							<div class="single-video" th:if="${movie != null}">
+							<div id="videoContainer"   th:if="${movie != null}">
 								<div>
 									<!-- <video data-dashjs-player autoplay th:src="${'/'+movie.path}"
 										controls></video> -->
@@ -311,6 +336,7 @@ video {
 	<script src="../js/custom.js"></script>
 	<!-- <script src="../js/myapp.js"></script> -->
 	<script src="../js/shaka-player.compiled.js"></script>
+	<script src="../js/shaka-player.ui.js"></script>
 	<!-- <script src="../js/dash_all_min.js"></script> -->
 </body>
 </html>
