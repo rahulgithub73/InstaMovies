@@ -25,9 +25,10 @@ public class TrainTimeTable implements Serializable {
 	private String totalDistance;
 	private String totalJourneyTime;
 	private String stationName;
+	private String stationNameHindi;
 	private String estimatedTimeArrival;
 	private String estimatedTimeDeparture;
 	private String haltTime;
-	private String distanceFromSource;
+	private Double distanceFromSource;
 
 }

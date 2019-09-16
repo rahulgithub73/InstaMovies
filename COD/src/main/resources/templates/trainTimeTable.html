@@ -179,6 +179,7 @@
 											style="text-align: center; color: black; font-weight: bold; font-size: 16px">
 											<div class="col-sm-2"></div>
 											<div class="col-sm-2">Station</div>
+											<div class="col-sm-2">Hindi Station</div>
 											<div class="col-sm-2">ETA</div>
 											<div class="col-sm-2">ETD</div>
 											<div class="col-sm-2">Stop Time</div>
@@ -197,6 +198,9 @@
 											</div>
 											<div class="col-sm-2" style="margin-top: 1%">
 												<span th:text="${trainTimeTable.stationName}"></span>
+											</div>
+											<div class="col-sm-2" style="margin-top: 1%">
+												<span th:text="${trainTimeTable.stationNameHindi}"></span>
 											</div>
 											<div class="col-sm-2" style="margin-top: 1%">
 												<span th:text="${trainTimeTable.estimatedTimeArrival}"></span>

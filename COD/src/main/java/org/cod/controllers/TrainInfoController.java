@@ -2,6 +2,7 @@ package org.cod.controllers;
 
 import java.util.List;
 
+import org.cod.client.TrainClient;
 import org.cod.entity.TrainTimeTable;
 import org.cod.repository.TrainRunningInfoRepository;
 import org.cod.repository.TrainTimeTableRepository;
@@ -18,18 +19,21 @@ public class TrainInfoController {
 
 	@Autowired
 	TrainTimeTableRepository trainTimeTableRepository;
+	
+	@Autowired
+	TrainClient trainClient;
 
 	@GetMapping(value = "/trainRunningInfo")
 	public String trainRunningInfo(Model model) {
 
-		model.addAttribute("trainRunningInfo", trainRunningInfoRepository.findByTrainNo("12203"));
+		model.addAttribute("trainRunningInfo", trainClient.prepareTrainRunningInfoObject());
 		return "trainRunningInfo";
 	}
 
 	@GetMapping(value = "/trainTimeTable")
 	public String trainTimeTable(Model model) {
 
-		List<TrainTimeTable> list = trainTimeTableRepository.findByTrainNo("12203");
+		List<TrainTimeTable> list = trainClient.prepareTrainTimeTableObject();
 		model.addAttribute("trainTimeTables", list);
 		if(list != null && list.size()>0) {
 			model.addAttribute("trainTime", list.get(0));
