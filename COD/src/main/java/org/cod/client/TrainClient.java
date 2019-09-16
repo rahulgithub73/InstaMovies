@@ -67,8 +67,8 @@ public class TrainClient {
 
 		TrainRunningInfoResponse resp = null;
 		try {
-			//resp = getTrainRunningInfo();
-			resp=loadStatus();
+			resp = getTrainRunningInfo();
+
 		} catch (Exception e) {
 			LOG.error("{} Exception while getting train running info response {}", methodName, e.getMessage());
 			return null;
@@ -94,8 +94,8 @@ public class TrainClient {
 		String methodName = "prepareTrainTimeTableObject:: ";
 		ResponseVO resp = null;
 		try {
-			//resp = getTrainTimeTable();
-			resp=loadJsonStations();
+			resp = getTrainTimeTable();
+
 		} catch (Exception e) {
 			LOG.error("{} Exception while prepare train time table object  {}", methodName, e.getMessage());
 			return null;

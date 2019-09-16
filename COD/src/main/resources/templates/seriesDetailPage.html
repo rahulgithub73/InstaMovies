@@ -20,6 +20,12 @@
 <!-- Owl Carousel -->
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
+
+
+<script src="../js/shaka-player.ui.js"></script>
+<link rel="stylesheet" href="../css/controls.css">
+<link rel="stylesheet"
+	href="../css/iconfamily.css">
 <style>
 video {
 	width: 100%;
@@ -28,57 +34,92 @@ video {
 </style>
 
 <script th:inline="javascript">
+
 /*<![CDATA[*/
 
-    var pathM = /*[[${subSeries.path}]]*/ 'default';
-    
-    var manifestUri ="/"+pathM;
-        //'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
+   var manifestUri = /*[[${'../'+subSeries.path}]]*/ 'default';
 
-    function initApp() {
-      // Install built-in polyfills to patch browser incompatibilities.
-      shaka.polyfill.installAll();
+ 
+async function init() {
+  // Create the UI manually.
+  const video = document.getElementById('video');
+  const videoContainer = document.getElementById('videoContainer');
+  const player = new shaka.Player(video);
+  
+  
+  player.configure({
+		preferredTextLanguage: 'en',
+		preferredAudioLanguage: 'hi-IN',
+		streaming: {
+			bufferingGoal: 15,
+			rebufferingGoal: 3,
+			bufferBehind: 30,
+			retryParameters: {
+			 maxAttempts: 2,
+			 baseDelay: 1000,
+			 backoffFactor: 2,
+			 fuzzFactor: .5,
+			 timeout: 0,
+		},
+		jumpLargeGaps: true
+		  },
+		abr: {
+			bandwidthDowngradeTarget: 0.95,
+			bandwidthUpgradeTarget: 0.85,
+			enabled: true,
+			switchInterval: 8
+		}
+		
+		
+	  
+	})	;
+  
+  // Use this to pass in desired config values.  Config values not passed in
+  // will be filled out according to the default config.
+  // See more info on the configuration in the section below.
+  const uiConfig = {};
+  uiConfig['controlPanelElements'] = ['rewind', 'fast_forward'];
+  const ui = new shaka.ui.Overlay(player, videoContainer, video, uiConfig);
+  const controls = ui.getControls();
 
-      // Check to see if the browser supports the basic APIs Shaka needs.
-      if (shaka.Player.isBrowserSupported()) {
-        // Everything looks good!
-        initPlayer();
-      } else {
-        // This browser does not have the minimum set of APIs we need.
-        console.error('Browser not supported!');
-      }
-    }
+  // Listen for error events.
+  player.addEventListener('error', onPlayerErrorEvent);
+  controls.addEventListener('error', onUIErrorEvent);
+  controls.addEventListener('caststatuschanged', onCastStatusChanged);
 
-    function initPlayer() {
-      // Create a Player instance.
-      var video = document.getElementById('video');
-      var player = new shaka.Player(video);
+ 
+  
+  // Try to load a manifest.
+  // This is an asynchronous process.
+  try {
+    await player.load(manifestUri);
+    // This runs if the asynchronous load is successful.
+    console.log('The video has now been loaded!');
+  } catch (error) {
+    onError(error);
+  }
+}
 
-      // Attach player to the window to make it easy to access in the JS console.
-      window.player = player;
+function onPlayerErrorEvent(errorEvent) {
+  // Extract the shaka.util.Error object from the event.
+  onPlayerError(event.detail);
+}
 
-      // Listen for error events.
-      player.addEventListener('error', onErrorEvent);
+function onPlayerError(error) {
+  // Handle player error
+}
 
-      // Try to load a manifest.
-      // This is an asynchronous process.
-      player.load(manifestUri).then(function() {
-        // This runs if the asynchronous load is successful.
-        console.log('The video has now been loaded!');
-      }).catch(onError);  // onError is executed if the asynchronous load fails.
-    }
+function onUIErrorEvent(errorEvent) {
+  // Handle UI error
+}
 
-    function onErrorEvent(event) {
-      // Extract the shaka.util.Error object from the event.
-      onError(event.detail);
-    }
+function onCastStatusChanged(event) {
+  // Handle cast status change
+}
 
-    function onError(error) {
-      // Log the error.
-      console.error('Error code', error.code, 'object', error);
-    }
-
-    document.addEventListener('DOMContentLoaded', initApp);
+// The shaka-ui-loaded event won't fire if there are no tagged UI elements to
+// set up, so listen to DOMContentLoaded instead.
+document.addEventListener('DOMContentLoaded', init);
 
 /*]]>*/
 </script>
@@ -178,13 +219,8 @@ video {
 						<div class="col-md-12">
 							<div class="single-video" th:if="${subSeries != null}">
 
-								<div>
-									<!-- <video data-dashjs-player autoplay
-										th:src="${'/'+subSeries.path}" controls></video> -->
-										<video id="video" width="100%"
-										
-										controls autoplay></video>
-									
+								<div id="videoContainer" th:if="${subSeries != null}" style="margin-left:20em;max-width: 40em">
+									<video autoplay id="video" style="width: 100%; height: 100%"></video>
 								</div>
 							</div>
 
@@ -260,7 +296,7 @@ video {
 				<div class="container">
 					<div class="row no-gutters">
 						<div class="col-md-12"
-							style="text-align: center; color: black; font-size: 1.0vw;">
+							style="text-align: center; color: black;">
 							<p class="mt-1 mb-0">
 								&copy; Copyright 2019 <strong class="text-dark">DAN
 									Eletronic System Pvt. Ltd.</strong> All Rights Reserved<br>
@@ -272,6 +308,7 @@ video {
 				</div>
 			</footer>
 			<!-- /.content-wrapper -->
+		</div>
 		</div>
 		<!-- /#wrapper -->
 		<!-- Scroll to Top Button-->
@@ -311,7 +348,7 @@ video {
 		<script src="../vendor/owl-carousel/owl.carousel.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="../js/custom.js"></script>
-		<script src="../js/dash_all_min.js"></script>
-		<script src="../js/shaka-player.compiled.js"></script>
+		<!-- <script src="../js/dash_all_min.js"></script>
+		<script src="../js/shaka-player.compiled.js"></script> -->
 </body>
 </html>

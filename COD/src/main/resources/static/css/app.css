@@ -57,11 +57,13 @@ div#amplitude-right {
   flex-direction: column; }
   div#amplitude-right div.song {
     cursor: pointer;
+    border-bottom: 1px dashed;
     padding: 10px; }
     div#amplitude-right div.song div.song-now-playing-icon-container {
       float: left;
       width: 20px;
       height: 20px;
+    
       margin-right: 10px; }
       div#amplitude-right div.song div.song-now-playing-icon-container img.now-playing {
         display: none;
