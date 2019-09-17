@@ -34,11 +34,22 @@
 <script th:inline="javascript">
 	/*<![CDATA[*/
 
-	var manifestUri = /*[[${'../'+movie.path}]]*/ 'default';
+	
+	
 	//var manifestUri = 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
 
 	//var manifestUri ="/files/movies/dash.mpd";
-
+    var IPhone = /*[[${IPhone}]]*/;
+    console.log('Device name.. '+IPhone);
+    var manifestUri ;
+    if(IPhone != 'IPhone'){
+    	manifestUri = /*[[${'../'+movie.path}]]*/ 'default';
+     }else{
+    	manifestUri = /*[[${'../'+movie.hlsPath}]]*/ 'default';
+    	//manifestUri="https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths-hls/hls.m3u8";
+    }
+    console.log('manifestUri.. '+manifestUri);
+    
 	async function init() {
 		// Create the UI manually.
 		const video = document.getElementById('video');
@@ -241,16 +252,16 @@
 
 
 									<h6>Director :</h6>
-									<span th:text="${movie.director}"> </span>
+									<p><span th:text="${movie.director}"> </span></p>
 									<h6>Cast :</h6>
-									<span th:text="${movie.cast}"> </span>
+									<p><span th:text="${movie.cast}"> </span></p>
 									<h6>Genres :</h6>
-									<span th:text="${movie.genres}"> </span>
+									<p><span th:text="${movie.genres}"> </span></p>
 									<h6>Description :</h6>
-									<span th:text="${movie.description}"> </span>
+									<p><span th:text="${movie.description}"> </span></p>
 
 									<h6>Language :</h6>
-									<span th:text="${movie.language}"> </span>
+									<p><span th:text="${movie.language}"> </span></p>
 
 									<h6>Tags :</h6>
 

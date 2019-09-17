@@ -25,5 +25,7 @@ public class SubSeriesEntity extends BaseEntity implements Serializable {
 	
 	@Column(name = "episode")
 	private String episode;
+	
+	private String hlsPath;
 
 }

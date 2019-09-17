@@ -2,6 +2,9 @@ package org.cod.controllers;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.cod.client.BrowserDetector;
 import org.cod.entity.MoviesEntity;
 import org.cod.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ public class MovieController {
 
 	@Autowired
 	MovieRepository movieRepository;
+	
+	@Autowired
+	BrowserDetector browserDetector;
 
 	@GetMapping(value = "/movies")
 	public String list(Model model) {
@@ -27,11 +33,12 @@ public class MovieController {
 	}
 
 	@GetMapping(value = "/movieDetailPage/{id}")
-	public String movieDetailPage(Model model, @PathVariable Long id) {
+	public String movieDetailPage(Model model, @PathVariable Long id,HttpServletRequest request) {
 		Optional<MoviesEntity> list = movieRepository.findById(id);
 
 		if (list.isPresent()) {
 			model.addAttribute("movie", list.get());
+			model.addAttribute("IPhone", browserDetector.getBrowserType(request));
 			return "movieDetailPage";
 		}
 

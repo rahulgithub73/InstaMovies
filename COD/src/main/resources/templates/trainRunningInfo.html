@@ -43,6 +43,12 @@
 	
 	
 }
+#ft {
+bottom: 0;
+width:100%;
+text-align: center;
+position: fixed; 
+}
 </style>
 
 </head>
@@ -184,7 +190,7 @@
 						
 							<div class="single-video-info-content box mb-3"
 								th:if="${trainRunningInfo == null}">
-								<h6 style="color: red">Train running info not found !!</h6>
+								<h6 style="color: red">Train Info not working currently, please try after some time</h6>
 							
 							</div>
 							<div class="single-video-left"
@@ -247,11 +253,11 @@
 			</div>
 			<!-- /.container-fluid -->
 			<!-- Sticky Footer -->
-			<footer class="mt-4 sticky-footer">
-				<div class="container">
+			<footer class="mt-4 sticky-footer" id="ft">
+				<div class="container" >
 					<div class="row no-gutters">
 						<div class="col-md-12"
-							style="text-align: center; color: black;">
+							style=" color: black;">
 							<p class="mt-1 mb-0">
 								&copy; Copyright 2019 <strong class="text-dark">DAN
 									Eletronic System Pvt. Ltd.</strong> All Rights Reserved<br>

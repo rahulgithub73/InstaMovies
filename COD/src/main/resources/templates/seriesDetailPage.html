@@ -37,7 +37,21 @@ video {
 
 /*<![CDATA[*/
 
-   var manifestUri = /*[[${'../'+subSeries.path}]]*/ 'default';
+  
+	//var manifestUri = 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
+
+	//var manifestUri ="/files/movies/dash.mpd";
+    var IPhone = /*[[${IPhone}]]*/;
+    console.log('Device name.. '+IPhone);
+    var manifestUri ;
+    if(IPhone != 'IPhone'){
+    	manifestUri = /*[[${'../'+subSeries.path}]]*/ 'default';
+     }else{
+    	manifestUri = /*[[${'../'+subSeries.hlsPath}]]*/ 'default';
+    	//manifestUri="https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths-hls/hls.m3u8";
+    }
+    console.log('manifestUri.. '+manifestUri);
+    
 
  
 async function init() {
@@ -219,7 +233,7 @@ document.addEventListener('DOMContentLoaded', init);
 						<div class="col-md-12">
 							<div class="single-video" th:if="${subSeries != null}">
 
-								<div id="videoContainer" th:if="${subSeries != null}" style="margin-left:20em;max-width: 40em">
+								<div id="videoContainer" th:if="${subSeries != null}" style="max-width: 40em">
 									<video autoplay id="video" style="width: 100%; height: 100%"></video>
 								</div>
 							</div>
@@ -250,17 +264,17 @@ document.addEventListener('DOMContentLoaded', init);
 
 									<div class="single-video-info-content box mb-3">
 										<h6>Director :</h6>
-										<span th:text="${subSeries.director}"> </span>
+										<p><span th:text="${subSeries.director}"> </span></p>
 
 										<h6>Cast :</h6>
-										<span th:text="${subSeries.cast}"> </span>
+										<p><span th:text="${subSeries.cast}"> </span></p>
 										<h6>Genres :</h6>
-										<span th:text="${subSeries.genres}"> </span>
+										<p><span th:text="${subSeries.genres}"> </span></p>
 
 										<h6>Description :</h6>
-										<span th:text="${subSeries.description}"> </span>
+										<p><span th:text="${subSeries.description}"> </span></p>
 										<h6>Language :</h6>
-										<span th:text="${subSeries.language}"> </span>
+										<p><span th:text="${subSeries.language}"> </span></p>
 
 										<h6>Tags :</h6>
 

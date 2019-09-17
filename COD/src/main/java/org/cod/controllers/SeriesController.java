@@ -3,6 +3,9 @@ package org.cod.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.cod.client.BrowserDetector;
 import org.cod.entity.SeriesEntity;
 import org.cod.entity.SubSeriesEntity;
 import org.cod.repository.SeriesRepository;
@@ -25,6 +28,9 @@ public class SeriesController {
 
 	@Autowired
 	SubSeriesRepository subSeriesRepository;
+	
+	@Autowired
+	BrowserDetector browserDetector;
 
 	@GetMapping(value = "/series")
 	public String series(Model model) {
@@ -54,11 +60,12 @@ public class SeriesController {
 	}
 
 	@GetMapping(value = "/seriesDetailPage/{id}")
-	public String movieDetailPage(Model model, @PathVariable Long id) {
+	public String movieDetailPage(Model model, @PathVariable Long id,HttpServletRequest request) {
 		Optional<SubSeriesEntity> list = subSeriesRepository.findById(id);
 
 		if (list.isPresent()) {
 			model.addAttribute("subSeries", list.get());
+			model.addAttribute("IPhone", browserDetector.getBrowserType(request));
 			return "seriesDetailPage";
 		}
 

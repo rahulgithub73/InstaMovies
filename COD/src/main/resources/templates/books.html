@@ -44,15 +44,17 @@
 }
 
 .pagination-div span {
-	border-radius: 3px;
-	border: 1px solid #999;
+	font-size: 14px;
 	padding: 5px;
 	margin: 10px 0px 0px 10px;
-	display: inline-block
+	display: inline-block;
+	
 }
 
 span.selected {
-	background: #ccf;
+	color: white;
+    font-size: 14px;
+    background: #ff516b none repeat scroll 0 0;
 }
 </style>
 
@@ -201,17 +203,17 @@ span.selected {
 									<div class="video-title text-dark">
 										<a href="#"><span th:text="${book.name}"> </span></a>
 									</div>
-									<div class="video-view" >
-										<span th:text="${book.description}"> </span>
+									<div class="video-view" style="font-size:12px;">
+										<span  th:text="${book.description}"> </span>
 									</div>
 									<div class="video-view text-dark">
 									 <span style="text-align: center;color:black;font-size:12px;font-weight: bold;">Writer : </span>
-										<span th:text="${' '+book.director}"> </span>
+										<span style="font-size:12px;" th:text="${' '+book.director}"> </span>
 
 									</div>
 									<div class="video-view text-dark">
 									<span style="text-align: center;color:black;font-size:12px;font-weight: bold;">Rating : </span>
-										<span th:text="${book.imdbRating}+' / 5.0'"> </span>
+										<span style="font-size:12px;" th:text="${book.imdbRating}+' / 5.0'"> </span>
 
 									</div>
 								</div>
