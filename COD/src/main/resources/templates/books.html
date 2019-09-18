@@ -23,15 +23,13 @@
 
 <script type="text/javascript">
 	function openPdf(e, path, redirect) {
-
-		var path1 = document.getElementById("link").getAttribute("href");
-
+		
 		// stop the browser from going to the href
 		e = e || window.event; // for IE
 		e.preventDefault();
 
 		// launch a new window with your PDF
-		window.open(path1, 'somename');
+		window.open(path, 'somename');
 
 		// redirect current page to new location
 		window.location = redirect;
@@ -191,10 +189,10 @@ span.selected {
 
 								<div class="video-card-image">
 									<a class="play-icon" th:href="${book.path}" id="link"
-										onclick="openPdf(event, '/laptopwebpage.pdf', '/paginationBooks');">
+										onclick="openPdf(event, this.getAttribute('href'), '/paginationBooks');">
 										<i class="fas fa-play-circle"></i>
 									</a> <a th:href="${book.path}"
-										onclick="openPdf(event, '/laptopwebpage.pdf', '/paginationBooks');"><img
+										onclick="openPdf(event, this.getAttribute('href'), '/paginationBooks');"><img
 										class="img-fluid" th:src="${book.thumpnailPath}" alt=""></a>
 
 
