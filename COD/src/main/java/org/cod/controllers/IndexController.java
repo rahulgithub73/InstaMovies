@@ -29,12 +29,11 @@ public class IndexController {
 		return "login";
 	}
 
-	
 	@GetMapping("/img/favicon")
-     String favicon() {
-     return "forward:/img/favicon.png";
- }
-	
+	String favicon() {
+		return "forward:/img/favicon.png";
+	}
+
 	@GetMapping(value = "/index")
 	public String login(Model model) {
 

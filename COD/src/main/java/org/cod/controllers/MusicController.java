@@ -46,7 +46,7 @@ public class MusicController {
 	}
 
 	@GetMapping(value = "/musicDetailPage/{id}")
-	public String movieDetailPage(Model model, @PathVariable Long id) {
+	public String movieDetailPage(Model model, @PathVariable Long id) throws Exception {
 		List<MusicEntity> list = musicRepository.findByAlbumId(id);
 		model.addAttribute("musics", list);
 		if (list != null && list.size() > 0) {
@@ -71,10 +71,13 @@ public class MusicController {
 
 				e1.printStackTrace();
 			}
+			return "musicDetailPage";
 
+		}else {
+			throw new Exception();
 		}
 
-		return "musicDetailPage";
+		
 
 	}
 

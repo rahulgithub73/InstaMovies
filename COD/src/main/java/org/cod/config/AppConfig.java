@@ -4,6 +4,8 @@ import java.util.Collections;
 
 import org.cod.client.TrainClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
+@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 public class AppConfig implements WebMvcConfigurer {
 
 	@Value("${base.file.path}")

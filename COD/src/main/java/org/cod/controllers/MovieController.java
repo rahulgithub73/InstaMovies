@@ -22,7 +22,7 @@ public class MovieController {
 
 	@Autowired
 	MovieRepository movieRepository;
-	
+
 	@Autowired
 	BrowserDetector browserDetector;
 
@@ -33,16 +33,17 @@ public class MovieController {
 	}
 
 	@GetMapping(value = "/movieDetailPage/{id}")
-	public String movieDetailPage(Model model, @PathVariable Long id,HttpServletRequest request) {
+	public String movieDetailPage(Model model, @PathVariable Long id, HttpServletRequest request) throws Exception {
 		Optional<MoviesEntity> list = movieRepository.findById(id);
 
 		if (list.isPresent()) {
 			model.addAttribute("movie", list.get());
 			model.addAttribute("IPhone", browserDetector.getBrowserType(request));
 			return "movieDetailPage";
-		}
+		} else {
 
-		return "movieDetailPage";
+			throw new Exception();
+		}
 
 	}
 
@@ -52,9 +53,10 @@ public class MovieController {
 		model.addAttribute("page", page);
 		return "movies";
 	}
-	
+
 	@GetMapping("/movieSearch")
-	public String serch(@PageableDefault(size = 10) Pageable pageable, Model model,@RequestParam(value="keyword") String keyword) {
+	public String serch(@PageableDefault(size = 10) Pageable pageable, Model model,
+			@RequestParam(value = "keyword") String keyword) {
 		Page<MoviesEntity> page = movieRepository.searchByKeywords(keyword, pageable);
 		model.addAttribute("page", page);
 		return "movies";
