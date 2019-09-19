@@ -7,6 +7,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Askbootstrap">
 <meta name="author" content="Askbootstrap">
+
 <title>Insta Movie: Books</title>
 <!-- Favicon Icon -->
 <link rel="shortcut icon" type="image/png" href="/img/favicon"/>
@@ -29,10 +30,10 @@
 		e.preventDefault();
 
 		// launch a new window with your PDF
-		window.open(path, 'somename');
-
+		var w=window.open(path+'#toolbar=0', '_blank');
+		w.focus();
 		// redirect current page to new location
-		window.location = redirect;
+		//window.location.href  = path;
 	}
 </script>
 
@@ -282,7 +283,7 @@ span.selected {
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="/">Logout</a>
+					<a class="btn btn-primary" href="/logout">Logout</a>
 				</div>
 			</div>
 		</div>

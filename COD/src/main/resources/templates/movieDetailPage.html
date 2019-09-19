@@ -43,10 +43,11 @@
     console.log('Device name.. '+IPhone);
     var manifestUri ;
     if(IPhone != 'IPhone'){
-    	manifestUri = /*[[${'../'+movie.path}]]*/ 'default';
+    	//manifestUri = /*[[${'../'+movie.path}]]*/ 'default';
+    	manifestUri = 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
      }else{
-    	manifestUri = /*[[${'../'+movie.hlsPath}]]*/ 'default';
-    	//manifestUri="https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths-hls/hls.m3u8";
+    	//manifestUri = /*[[${'../'+movie.hlsPath}]]*/ 'default';
+    	manifestUri="https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths-hls/hls.m3u8";
     }
     console.log('manifestUri.. '+manifestUri);
     
@@ -331,7 +332,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="/">Logout</a>
+					<a class="btn btn-primary" href="/logout">Logout</a>
 				</div>
 			</div>
 		</div>

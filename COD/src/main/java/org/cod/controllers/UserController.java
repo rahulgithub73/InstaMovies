@@ -52,8 +52,13 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/logout")
-	public String logout(Model model) {
-		return "logout";
+	public String logout(Model model,HttpSession session) {
+		if(session != null) {
+			session.removeAttribute("mobile");
+			session.invalidate();
+		}
+		
+		return "redirect:/";
 	}
 
 	@GetMapping(value = "/userInfo")

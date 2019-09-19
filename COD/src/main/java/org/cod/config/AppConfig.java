@@ -1,11 +1,15 @@
 package org.cod.config;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.cod.client.TrainClient;
+import org.cod.controllers.LoginFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +25,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
-@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = { ErrorMvcAutoConfiguration.class })
 public class AppConfig implements WebMvcConfigurer {
 
 	@Value("${base.file.path}")
@@ -34,6 +38,33 @@ public class AppConfig implements WebMvcConfigurer {
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setUseCodeAsDefaultMessage(true);
 		return messageSource;
+	}
+
+	@Bean
+	public FilterRegistrationBean<LoginFilter> corsFilterRegistration() {
+		FilterRegistrationBean<LoginFilter> filterRegistrationBean = new FilterRegistrationBean<>(loginFilter());
+
+		List<String> urlPatterns = new ArrayList<>();
+		urlPatterns.add("/paginationIndex/*");
+		urlPatterns.add("/paginationMovies/*");
+		urlPatterns.add("/paginationSeries/*");
+		urlPatterns.add("/paginationMusic/*");
+		urlPatterns.add("/paginationBooks/*");
+		urlPatterns.add("/movieDetailPage*/*");
+		urlPatterns.add("/subSeries/*");
+		urlPatterns.add("/seriesDetailPage/*");
+		urlPatterns.add("/musicDetailPage/*");
+		urlPatterns.add("/trainRunningInfo/*");
+		urlPatterns.add("/trainTimeTable/*");
+
+		filterRegistrationBean.setUrlPatterns(urlPatterns);
+
+		return filterRegistrationBean;
+	}
+
+	@Bean
+	public LoginFilter loginFilter() {
+		return new LoginFilter();
 	}
 
 	@Bean

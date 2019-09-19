@@ -1,5 +1,7 @@
 package org.cod.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.cod.entity.MoviesEntity;
 import org.cod.entity.UserEntity;
 import org.cod.repository.MovieRepository;
@@ -25,7 +27,11 @@ public class IndexController {
 	UserRepository userRepository;
 
 	@GetMapping("/")
-	String login(UserEntity userEntity) {
+	String login(UserEntity userEntity,HttpSession session) {
+		if(session != null) {
+			session.removeAttribute("mobile");
+			session.invalidate();
+		}
 		return "login";
 	}
 
