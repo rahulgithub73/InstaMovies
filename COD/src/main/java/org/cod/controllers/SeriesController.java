@@ -46,7 +46,7 @@ public class SeriesController {
 	}
 
 	@GetMapping(value = "/subSeries/{id}")
-	public String subSeries(Model model, @PathVariable Long id) throws Exception {
+	public String subSeries(Model model, @PathVariable Long id)  {
 
 		List<SubSeriesEntity> list = subSeriesRepository.findBySeriesId(id);
 		model.addAttribute("series", list);
@@ -54,26 +54,21 @@ public class SeriesController {
 		if (list != null && list.size() > 0) {
 			model.addAttribute("serie", list.get(0));
 			return "subSeries";
-		}else {
-			throw new Exception();
 		}
-
-		
+		return "subSeries";
 	}
 
 	@GetMapping(value = "/seriesDetailPage/{id}")
-	public String movieDetailPage(Model model, @PathVariable Long id,HttpServletRequest request) throws Exception {
+	public String movieDetailPage(Model model, @PathVariable Long id,HttpServletRequest request)  {
 		Optional<SubSeriesEntity> list = subSeriesRepository.findById(id);
 
 		if (list.isPresent()) {
 			model.addAttribute("subSeries", list.get());
 			model.addAttribute("IPhone", browserDetector.getBrowserType(request));
 			return "seriesDetailPage";
-		}else {
-			throw new Exception();
 		}
 
-		
+		return "seriesDetailPage";
 
 	}
 

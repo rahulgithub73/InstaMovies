@@ -1,15 +1,11 @@
 package org.cod.config;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.cod.client.TrainClient;
-import org.cod.controllers.LoginFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +36,7 @@ public class AppConfig implements WebMvcConfigurer {
 		return messageSource;
 	}
 
-	@Bean
+	/*@Bean
 	public FilterRegistrationBean<LoginFilter> corsFilterRegistration() {
 		FilterRegistrationBean<LoginFilter> filterRegistrationBean = new FilterRegistrationBean<>(loginFilter());
 
@@ -50,7 +46,7 @@ public class AppConfig implements WebMvcConfigurer {
 		urlPatterns.add("/paginationSeries/*");
 		urlPatterns.add("/paginationMusic/*");
 		urlPatterns.add("/paginationBooks/*");
-		urlPatterns.add("/movieDetailPage*/*");
+		urlPatterns.add("/movieDetailPage/*");
 		urlPatterns.add("/subSeries/*");
 		urlPatterns.add("/seriesDetailPage/*");
 		urlPatterns.add("/musicDetailPage/*");
@@ -60,12 +56,12 @@ public class AppConfig implements WebMvcConfigurer {
 		filterRegistrationBean.setUrlPatterns(urlPatterns);
 
 		return filterRegistrationBean;
-	}
+	}*/
 
-	@Bean
+/*	@Bean
 	public LoginFilter loginFilter() {
 		return new LoginFilter();
-	}
+	}*/
 
 	@Bean
 	public LocaleResolver localeResolver() {

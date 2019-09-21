@@ -33,18 +33,15 @@ public class MovieController {
 	}
 
 	@GetMapping(value = "/movieDetailPage/{id}")
-	public String movieDetailPage(Model model, @PathVariable Long id, HttpServletRequest request) throws Exception {
+	public String movieDetailPage(Model model, @PathVariable Long id, HttpServletRequest request) {
 		Optional<MoviesEntity> list = movieRepository.findById(id);
 
 		if (list.isPresent()) {
 			model.addAttribute("movie", list.get());
 			model.addAttribute("IPhone", browserDetector.getBrowserType(request));
 			return "movieDetailPage";
-		} else {
-
-			throw new Exception();
-		}
-
+		} 
+		return "movieDetailPage";
 	}
 
 	@GetMapping("/paginationMovies")

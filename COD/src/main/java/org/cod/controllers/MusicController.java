@@ -73,11 +73,8 @@ public class MusicController {
 			}
 			return "musicDetailPage";
 
-		}else {
-			throw new Exception();
 		}
-
-		
+		return "musicDetailPage";
 
 	}
 

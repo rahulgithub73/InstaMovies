@@ -29,7 +29,7 @@
 
 
 </head>
-<body id="page-top">
+<body id="page-top" style="background:#FFFF">
 	<nav
 		class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
 		&nbsp;&nbsp;
@@ -241,7 +241,22 @@
 			</div>
 			<!-- /.container-fluid -->
 			<!-- Sticky Footer -->
-			<footer class="mt-4 sticky-footer ">
+			<footer th:if="${music != null}" class="mt-4 sticky-footer ">
+				<div class="container">
+					<div class="row no-gutters">
+						<div class="col-md-12"
+							style="text-align: center; color: black;">
+							<p class="mt-1 mb-0">
+								&copy; Copyright 2019 <strong class="text-dark">DAN
+									Eletronic System Pvt. Ltd.</strong> All Rights Reserved<br>
+
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</footer>
+			<footer th:if="${music == null}" class="mt-4 sticky-footer fixed-bottom">
 				<div class="container">
 					<div class="row no-gutters">
 						<div class="col-md-12"

@@ -1,7 +1,5 @@
 package org.cod.controllers;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +14,8 @@ public class MyErrorController implements ErrorController {
 	}
 
 	@RequestMapping("/errorPage")
-	public String handleErrorPage(HttpSession session) {
-		if(session != null) {
-			session.removeAttribute("mobile");
-			session.invalidate();
-		}
+	public String handleErrorPage() {
+		
 		return "error";
 	}
 
