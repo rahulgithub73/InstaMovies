@@ -516,18 +516,14 @@ stroke-dashoffset
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 400;
-	src: local('Roboto'), local('Roboto-Regular'),
-		url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu4mxP.ttf)
-		format('truetype')
+	src: local('Roboto'), local('Roboto-Regular'), url('KFOmCnqEu92Fr1Mu4mxP.ttf') format('truetype')
 }
 
 @font-face {
 	font-family: 'Material Icons';
 	font-style: normal;
 	font-weight: 400;
-	src:
-		url(https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf)
-		format('truetype')
+	src: url('flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf') format('truetype')
 }
 
 .material-icons {
