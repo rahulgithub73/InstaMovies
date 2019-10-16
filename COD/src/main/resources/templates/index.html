@@ -179,14 +179,19 @@ span.selected {
 						<div class="col-xl-3 col-sm-6 mb-3"
 							th:each="movie : ${page.content}">
 							<div class="video-card">
-								<div class="video-card-image">
+								<div class="owl-carousel owl-carousel-login" >
+								
+								
+								<div class="item" th:each="thumpnailPath,row: ${#strings.arraySplit(movie.thumpnailPath, '|')}">
+								
 									<a class="play-icon" th:href="${'/movieDetailPage/'+movie.id}"><i
 										class="fas fa-play-circle"></i></a> <a
 										th:href="${'/movieDetailPage/'+movie.id}"><img
-										class="img-fluid" th:src="${movie.thumpnailPath}" alt=""></a>
-									<div class="time">
-										<span th:text="${movie.runtimeMinutes}"> </span>
-									</div>
+										class="img-fluid" th:src="${thumpnailPath}" alt=""></a>
+									
+								
+							</div>
+								
 								</div>
 								<div class="video-card-body">
 									<div class="video-title">
