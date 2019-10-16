@@ -7,10 +7,12 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Askbootstrap">
 <meta name="author" content="Askbootstrap">
-<title>Insta Movie: Train Time Table</title>
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#ffffff">
+<title>Insta Railway Videp</title>
 <!-- Favicon Icon -->
 <link rel="shortcut icon" type="image/png" href="/img/favicon" />
-
 <!-- Bootstrap core CSS-->
 <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom fonts for this template-->
@@ -22,33 +24,106 @@
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
 
-<style type="text/css">
-.centered1 {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	color: white;
-	font-weight: bold;
-	font-size: 3.4vw;
-	transform: translate(-50%, -50%);
-}
 
-.centered2 {
-	position: absolute;
-	top: 50%;
-	right: 10%;
-	color: white;
-	font-weight: bold;
-	font-size: 3.4vw;
-	transform: translate(-50%, -50%);
-}
-
-.top-buffer {
-	margin-top: 10px;
-}
+<script src="../js/shaka-player.ui.js"></script>
+<link rel="stylesheet" href="../css/controls.css">
+<link rel="stylesheet" href="../css/iconfamily.css">
+<style>
 </style>
 
+<script th:inline="javascript">
+	/*<![CDATA[*/
+    var IPhone = /*[[${IPhone}]]*/;
+    console.log('Device name.. '+IPhone);
+    var manifestUri ;
+    if(IPhone != 'IPhone'){
+    	manifestUri = /*[[${'../'+railwayvideo.path}]]*/ 'default';
+    	//manifestUri = 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
+     }else{
+    	manifestUri = /*[[${'../'+railwayvideo.hlsPath}]]*/ 'default';
+    	//manifestUri="https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths-hls/hls.m3u8";
+    }
+    console.log('manifestUri.. '+manifestUri);
+    
+	async function init() {
+		// Create the UI manually.
+		const video = document.getElementById('video');
+		const videoContainer = document.getElementById('videoContainer');
+		const player = new shaka.Player(video);
 
+		player.configure({
+			preferredTextLanguage : 'en',
+			preferredAudioLanguage : 'hi-IN',
+			streaming : {
+				bufferingGoal : 15,
+				rebufferingGoal : 3,
+				bufferBehind : 30,
+				retryParameters : {
+					maxAttempts : 2,
+					baseDelay : 1000,
+					backoffFactor : 2,
+					fuzzFactor : .5,
+					timeout : 0,
+				},
+				jumpLargeGaps : true
+			},
+			abr : {
+				bandwidthDowngradeTarget : 0.95,
+				bandwidthUpgradeTarget : 0.85,
+				enabled : true,
+				switchInterval : 8
+			}
+
+		});
+
+		// Use this to pass in desired config values.  Config values not passed in
+		// will be filled out according to the default config.
+		// See more info on the configuration in the section below.
+		const uiConfig = {};
+		uiConfig['controlPanelElements'] = ['rewind', 'fast_forward'];
+		const ui = new shaka.ui.Overlay(player, videoContainer, video, uiConfig);
+		const controls = ui.getControls();
+
+		// Listen for error events.
+		player.addEventListener('error', onPlayerErrorEvent);
+		controls.addEventListener('error', onUIErrorEvent);
+		controls.addEventListener('caststatuschanged', onCastStatusChanged);
+
+		// Try to load a manifest.
+		// This is an asynchronous process.
+		try {
+			await
+			player.load(manifestUri);
+			// This runs if the asynchronous load is successful.
+			console.log('The video has now been loaded!');
+		} catch (error) {
+			onError(error);
+		}
+	}
+
+	function onPlayerErrorEvent(errorEvent) {
+		// Extract the shaka.util.Error object from the event.
+		onPlayerError(event.detail);
+	}
+
+	function onPlayerError(error) {
+		// Handle player error
+	}
+
+	function onUIErrorEvent(errorEvent) {
+		// Handle UI error
+	}
+
+	function onCastStatusChanged(event) {
+		// Handle cast status change
+	}
+
+	// The shaka-ui-loaded event won't fire if there are no tagged UI elements to
+	// set up, so listen to DOMContentLoaded instead.
+	document.addEventListener('DOMContentLoaded', init);
+
+	/*]]>*/
+</script>
 </head>
 <body id="page-top">
 	<nav
@@ -59,13 +134,13 @@
 			<i class="fas fa-bars"></i>
 		</button>
 		&nbsp;&nbsp; <a class="navbar-brand mr-1" href="/paginationIndex"><img
-			class="img-fluid" alt="" src="img/logo.png"></a>
+			class="img-fluid" alt="" src="../img/logo.png"></a>
 		<!-- Navbar Search -->
 		<form
 			class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
 			<div class="input-group">
 				<input type="text" class="form-control" name="keyword"
-					th:value="${keyword}" placeholder="Search for...">
+					placeholder="Search for...">
 				<div class="input-group-append">
 					<button class="btn btn-light" type="button">
 						<i class="fas fa-search"></i>
@@ -144,71 +219,66 @@
 		<div id="content-wrapper">
 			<div class="container-fluid pb-0">
 				<div class="video-block-right-list section-padding">
-					<div class="row mb-4">
-						<div class="col-md-12">
-							<div class="single-video">
-								<a href="#"> <img class="img-fluid" width="100%"
-									height="auto" src="img/train2.png">
-								</a>
-							</div>
-							<div class="centered1" th:if="${trainTime != null}">
-								<span th:text="${trainTime.trainName}"> </span>
-							</div>
-							<div class="centered2" th:if="${trainTime != null}">
-								<span th:text="${trainTime.trainNo}"> </span>
-							</div>
-						</div>
 
+					<div id="videoContainer" th:if="${railwayvideo != null}"
+						style="max-width: 40em">
+						<video autoplay id="video" class="shaka-video"
+							style="width: 100%; height: 100%"></video>
 					</div>
+
 				</div>
 				<div class="video-block section-padding">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="single-video-left">
+							<div class="single-video-left" th:if="${railwayvideo == null}">
+								<h6 style="color: red">Records not found !!</h6>
+							</div>
+							<div class="single-video-left" th:if="${railwayvideo != null}">
+								<div class="single-video-title box mb-3">
+									<h2>
+										<a href="#"><span th:text="${railwayvideo.name}"> </span></a>
+									</h2>
+
+									<span th:text="${railwayvideo.imdbRating}+' / 5.0 Rating'"> </span>
+									&nbsp;<img alt="Avatar" src="../img/calendarIcon.png">
+									&nbsp;&nbsp; <span th:text="${railwayvideo.releasaeYear}"> </span>
+								</div>
+
 
 
 								<div class="single-video-info-content box mb-3">
 
-									<div class="container"
-										th:if=" ${#lists.isEmpty(trainTimeTables)}">
-										<h6 style="color: red">Train time table not found !!</h6>
-									</div>
 
-									<div class="container"
-										th:if=" ${not #lists.isEmpty(trainTimeTables)}">
+									<h6>Director :</h6>
+									<p><span th:text="${railwayvideo.director}"> </span></p>
+									<h6>Cast :</h6>
+									<p><span th:text="${railwayvideo.cast}"> </span></p>
+									<h6>Genres :</h6>
+									<p><span th:text="${railwayvideo.genres}"> </span></p>
+									<h6>Description :</h6>
+									<p><span th:text="${railwayvideo.description}"> </span></p>
+
+									<h6>Language :</h6>
+									<p><span th:text="${railwayvideo.language}"> </span></p>
+
+									<h6>Tags :</h6>
+
+									<div th:unless="${railwayvideo.tags == null}">
+										<div
+											th:each="tag,row: ${#strings.arraySplit(railwayvideo.tags, '|')}"
+											class="tags mb-0">
+											<p class="tags mb-0">
+												<span><a href="#"><span th:text="${tag}">
+													</span></a></span>
+
+											</p>
 
 
-										<div class="table-responsive">
-											<table class="table table-striped" style="text-align:center;font-size: 18px">
-												<thead>
-													<tr>
-														<th></th>
-														<th>Station</th>
-														<th>Hindi Station</th>
-														<th>ETA</th>
-														<th>ETD</th>
-														<th>Stop Time</th>
-														<th>Distance</th>
-
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:if="${not #lists.isEmpty(trainTimeTables)}"
-														th:each="trainTimeTable : ${trainTimeTables}">
-														<td><img class="img-fluid" width="25%" height="20%"
-															src="img/trainicon.png"></td>
-														<td th:text="${trainTimeTable.stationName}"></td>
-														<td th:text="${trainTimeTable.stationNameHindi}"></td>
-														<td th:text="${trainTimeTable.estimatedTimeArrival}"></td>
-														<td th:text="${trainTimeTable.estimatedTimeDeparture}"></td>
-														<td th:text="${trainTimeTable.haltTime}"></td>
-														<td th:text="${trainTimeTable.distanceFromSource}"></td>
-													</tr>
-
-												</tbody>
-											</table>
 										</div>
 									</div>
+
+
+
 								</div>
 
 							</div>
@@ -219,11 +289,10 @@
 			</div>
 			<!-- /.container-fluid -->
 			<!-- Sticky Footer -->
-			<footer class="mt-4 sticky-footer fixed-bottom">
+			<footer class="mt-4 sticky-footer">
 				<div class="container">
 					<div class="row no-gutters">
-						<div class="col-md-12"
-							style="text-align: center; color: black;">
+						<div class="col-md-12" style="text-align: center; color: black;">
 							<p class="mt-1 mb-0">
 								&copy; Copyright 2019 <strong class="text-dark">DAN
 									Eletronic System Pvt. Ltd.</strong> All Rights Reserved<br>
@@ -274,5 +343,8 @@
 	<script src="../vendor/owl-carousel/owl.carousel.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="../js/custom.js"></script>
+	<!-- <script src="../js/myapp.js"></script> -->
+
+	<!-- <script src="../js/dash_all_min.js"></script> -->
 </body>
 </html>

@@ -7,51 +7,44 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Askbootstrap">
 <meta name="author" content="Askbootstrap">
-<title>Insta Movie: Train Time Table</title>
+<title>Insta Railway Video</title>
 <!-- Favicon Icon -->
-<link rel="shortcut icon" type="image/png" href="/img/favicon" />
-
+<link rel="shortcut icon" type="image/png" href="/img/favicon"/>
 <!-- Bootstrap core CSS-->
-<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom fonts for this template-->
-<link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
 <!-- Custom styles for this template-->
-<link href="../css/osahan.css" rel="stylesheet">
+<link href="css/osahan.css" rel="stylesheet">
 <!-- Owl Carousel -->
-<link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
-<link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
+<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
 
-<style type="text/css">
-.centered1 {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	color: white;
-	font-weight: bold;
-	font-size: 3.4vw;
-	transform: translate(-50%, -50%);
+
+<style>
+.pagination-div {
+	user-select: none;
 }
 
-.centered2 {
-	position: absolute;
-	top: 50%;
-	right: 10%;
-	color: white;
-	font-weight: bold;
-	font-size: 3.4vw;
-	transform: translate(-50%, -50%);
+.pagination-div span {
+	font-size: 14px;
+	padding: 5px;
+	margin: 10px 0px 0px 10px;
+	display: inline-block;
+	
 }
 
-.top-buffer {
-	margin-top: 10px;
+span.selected {
+	color: white;
+    font-size: 14px;
+    background: #ff516b none repeat scroll 0 0;
 }
 </style>
 
-
 </head>
 <body id="page-top">
-	<nav
+		<nav
 		class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
 		&nbsp;&nbsp;
 		<button class="btn btn-link btn-sm text-secondary order-1 order-sm-0"
@@ -61,13 +54,13 @@
 		&nbsp;&nbsp; <a class="navbar-brand mr-1" href="/paginationIndex"><img
 			class="img-fluid" alt="" src="img/logo.png"></a>
 		<!-- Navbar Search -->
-		<form
+		<form th:action="@{/railwayvideoearch}" method="get"
 			class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
 			<div class="input-group">
 				<input type="text" class="form-control" name="keyword"
 					th:value="${keyword}" placeholder="Search for...">
 				<div class="input-group-append">
-					<button class="btn btn-light" type="button">
+					<button class="btn btn-light" type="submit">
 						<i class="fas fa-search"></i>
 					</button>
 				</div>
@@ -143,87 +136,101 @@
 		</ul>
 		<div id="content-wrapper">
 			<div class="container-fluid pb-0">
-				<div class="video-block-right-list section-padding">
-					<div class="row mb-4">
+				<div class="top-mobile-search">
+					<div class="row">
 						<div class="col-md-12">
-							<div class="single-video">
-								<a href="#"> <img class="img-fluid" width="100%"
-									height="auto" src="img/train2.png">
-								</a>
-							</div>
-							<div class="centered1" th:if="${trainTime != null}">
-								<span th:text="${trainTime.trainName}"> </span>
-							</div>
-							<div class="centered2" th:if="${trainTime != null}">
-								<span th:text="${trainTime.trainNo}"> </span>
-							</div>
+							<form class="mobile-search" th:action="@{/railwayvideoearch}" method="get">
+								<div class="input-group">
+									<input type="text" name="keyword"
+					th:value="${keyword}" placeholder="Search for..."
+										class="form-control">
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-dark">
+											<i class="fas fa-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
 						</div>
-
 					</div>
 				</div>
+
+				<div class="video-block section-padding">
+					<a href="#"> <img class="img-fluid" width="100%" height="300"
+						src="img/movies.png">
+					</a>
+					
+
+				</div>
+
+				<hr>
 				<div class="video-block section-padding">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="single-video-left">
+							<div class="main-title" th:if=" ${not #lists.isEmpty(page.content)}">
+								<h6>Videos</h6>
+							</div>
+							<div class="main-title" th:if=" ${#lists.isEmpty(page.content)}">
+								<h6 style="color:red">Videos not found !!</h6>
+							</div>
+						</div>
 
 
-								<div class="single-video-info-content box mb-3">
 
-									<div class="container"
-										th:if=" ${#lists.isEmpty(trainTimeTables)}">
-										<h6 style="color: red">Train time table not found !!</h6>
-									</div>
-
-									<div class="container"
-										th:if=" ${not #lists.isEmpty(trainTimeTables)}">
-
-
-										<div class="table-responsive">
-											<table class="table table-striped" style="text-align:center;font-size: 18px">
-												<thead>
-													<tr>
-														<th></th>
-														<th>Station</th>
-														<th>Hindi Station</th>
-														<th>ETA</th>
-														<th>ETD</th>
-														<th>Stop Time</th>
-														<th>Distance</th>
-
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:if="${not #lists.isEmpty(trainTimeTables)}"
-														th:each="trainTimeTable : ${trainTimeTables}">
-														<td><img class="img-fluid" width="25%" height="20%"
-															src="img/trainicon.png"></td>
-														<td th:text="${trainTimeTable.stationName}"></td>
-														<td th:text="${trainTimeTable.stationNameHindi}"></td>
-														<td th:text="${trainTimeTable.estimatedTimeArrival}"></td>
-														<td th:text="${trainTimeTable.estimatedTimeDeparture}"></td>
-														<td th:text="${trainTimeTable.haltTime}"></td>
-														<td th:text="${trainTimeTable.distanceFromSource}"></td>
-													</tr>
-
-												</tbody>
-											</table>
-										</div>
+						<div class="col-xl-3 col-sm-6 mb-3"
+							th:each="railwayvideo : ${page.content}">
+							<div class="video-card">
+								<div class="video-card-image">
+									<a class="play-icon" th:href="${'/railwayvideoDetailPage/'+railwayvideo.id}"><i
+										class="fas fa-play-circle"></i></a> <a
+										th:href="${'/railwayvideoDetailPage/'+railwayvideo.id}"><img
+										class="img-fluid" th:src="${railwayvideo.thumpnailPath}" alt=""></a>
+									<div class="time">
+										<span th:text="${railwayvideo.runtimeMinutes}"> </span>
 									</div>
 								</div>
-
+								<div class="video-card-body">
+									<div class="video-title">
+										<a href="#"><span th:text="${railwayvideo.name}"> </span></a>
+									</div>
+									
+									<div class="video-view">
+										<span th:text="${railwayvideo.imdbRating}+' / 5.0 Rating'"> </span>
+										&nbsp;<img alt="Avatar" src="../img/calendarIcon.png"> &nbsp;&nbsp; <span
+											th:text="${railwayvideo.releasaeYear}"> </span>
+									</div>
+								</div>
 							</div>
 						</div>
 
 					</div>
+
+					<div class="pagination-div" align="center" th:if=" ${not #lists.isEmpty(page.content)}">
+
+						<span th:if="${page.hasPrevious()}"> <a
+							th:href="@{/paginationIndex(page=${page.number-1},size=${page.size})}">Previous</a>
+						</span>
+						<th:block
+							th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+							<span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
+							<span th:unless="${page.number == i}"> <a
+								th:href="@{/paginationIndex(page=${i},size=${page.size})}">[[${i}+1]]</a>
+							</span>
+						</th:block>
+						<span th:if="${page.hasNext()}"> <a
+							th:href="@{/paginationIndex(page=${page.number+1},size=${page.size})}">Next</a>
+						</span>
+					</div>
 				</div>
+				<hr>
+
+
 			</div>
-			<!-- /.container-fluid -->
-			<!-- Sticky Footer -->
-			<footer class="mt-4 sticky-footer fixed-bottom">
+			<footer class="mt-4 sticky-footer">
 				<div class="container">
 					<div class="row no-gutters">
 						<div class="col-md-12"
-							style="text-align: center; color: black;">
+							style="text-align: center; color: black; ">
 							<p class="mt-1 mb-0">
 								&copy; Copyright 2019 <strong class="text-dark">DAN
 									Eletronic System Pvt. Ltd.</strong> All Rights Reserved<br>
@@ -234,6 +241,7 @@
 					</div>
 				</div>
 			</footer>
+			
 		</div>
 		<!-- /.content-wrapper -->
 	</div>
@@ -266,13 +274,13 @@
 		</div>
 	</div>
 	<!-- Bootstrap core JavaScript-->
-	<script src="../vendor/jquery/jquery.min.js"></script>
-	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Core plugin JavaScript-->
-	<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Owl Carousel -->
-	<script src="../vendor/owl-carousel/owl.carousel.js"></script>
+	<script src="vendor/owl-carousel/owl.carousel.js"></script>
 	<!-- Custom scripts for all pages-->
-	<script src="../js/custom.js"></script>
+	<script src="js/custom.js"></script>
 </body>
 </html>
