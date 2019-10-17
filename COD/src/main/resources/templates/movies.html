@@ -142,7 +142,7 @@ span.selected {
 							<form class="mobile-search" th:action="@{/movieSearch}" method="get">
 								<div class="input-group">
 									<input type="text" name="keyword"
-					th:value="${keyword}" placeholder="Search for..."
+					                    th:value="${keyword}" placeholder="Search for..."
 										class="form-control">
 									<div class="input-group-append">
 										<button type="submit" class="btn btn-dark">
@@ -156,10 +156,25 @@ span.selected {
 				</div>
 
 				<div class="video-block section-padding">
+
+					<div class="owl-carousel owl-carousel-login" th:if="${bannerPath != null}">
+
+
+						<div class="item"
+							th:each="bannerPath1,row: ${#strings.arraySplit(bannerPath, '|')}">
+
+							<a href="#"> <img class="img-fluid" width="100%" height="300"
+								th:src="${bannerPath1}">
+							</a>
+
+						</div>
+
+					</div>
+
 					<a href="#"> <img class="img-fluid" width="100%" height="300"
-						src="img/movies.png">
+						src="img/movies.png"  th:if="${bannerPath == null}">
 					</a>
-					
+
 
 				</div>
 
@@ -175,22 +190,19 @@ span.selected {
 							</div>
 						</div>
 
-                         <div class="col-xl-3 col-sm-6 mb-3"
+
+
+						<div class="col-xl-3 col-sm-6 mb-3"
 							th:each="movie : ${page.content}">
 							<div class="video-card">
-								<div class="owl-carousel owl-carousel-login" >
-								
-								
-								<div class="item" th:each="thumpnailPath,row: ${#strings.arraySplit(movie.thumpnailPath, '|')}">
-								
+								<div class="video-card-image">
 									<a class="play-icon" th:href="${'/movieDetailPage/'+movie.id}"><i
 										class="fas fa-play-circle"></i></a> <a
 										th:href="${'/movieDetailPage/'+movie.id}"><img
-										class="img-fluid" th:src="${thumpnailPath}" alt=""></a>
-									
-								
-							</div>
-								
+										class="img-fluid" th:src="${movie.thumpnailPath}" alt=""></a>
+									<div class="time">
+										<span th:text="${movie.runtimeMinutes}"> </span>
+									</div>
 								</div>
 								<div class="video-card-body">
 									<div class="video-title">

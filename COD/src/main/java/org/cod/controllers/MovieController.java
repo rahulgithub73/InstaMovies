@@ -8,6 +8,7 @@ import org.cod.client.BrowserDetector;
 import org.cod.entity.MoviesEntity;
 import org.cod.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,10 +26,16 @@ public class MovieController {
 
 	@Autowired
 	BrowserDetector browserDetector;
+	
+	@Value("${banner.path}")
+	private String bannerPath;
 
 	@GetMapping(value = "/movies")
 	public String list(Model model) {
 		model.addAttribute("movies", movieRepository.findAll());
+		model.addAttribute("bannerPath", bannerPath);
+		
+		
 		return "movies";
 	}
 
@@ -48,6 +55,8 @@ public class MovieController {
 	public String getEmployees(@PageableDefault(size = 10) Pageable pageable, Model model) {
 		Page<MoviesEntity> page = movieRepository.findAll(pageable);
 		model.addAttribute("page", page);
+		model.addAttribute("bannerPath", bannerPath);
+		
 		return "movies";
 	}
 
@@ -56,6 +65,8 @@ public class MovieController {
 			@RequestParam(value = "keyword") String keyword) {
 		Page<MoviesEntity> page = movieRepository.searchByKeywords(keyword, pageable);
 		model.addAttribute("page", page);
+		model.addAttribute("bannerPath", bannerPath);
+		
 		return "movies";
 	}
 

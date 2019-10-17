@@ -22,5 +22,6 @@ public class MoviesEntity extends BaseEntity implements Serializable {
 	private Long id;
 	
 	private String hlsPath;
+	
 
 }

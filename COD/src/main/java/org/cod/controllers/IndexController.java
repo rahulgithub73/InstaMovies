@@ -5,6 +5,7 @@ import org.cod.entity.UserEntity;
 import org.cod.repository.MovieRepository;
 import org.cod.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,6 +24,9 @@ public class IndexController {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Value("${banner.path}")
+	private String bannerPath;
 
 	@GetMapping("/")
 	String login(UserEntity userEntity) {
@@ -37,7 +41,7 @@ public class IndexController {
 
 	@GetMapping(value = "/index")
 	public String login(Model model) {
-
+		model.addAttribute("bannerPath", bannerPath);
 		model.addAttribute("movies", movieRepository.findAll());
 		return "index";
 	}
@@ -46,7 +50,9 @@ public class IndexController {
 	public String getEmployees(@PageableDefault(size = 10) Pageable pageable, Model model) {
 		Page<MoviesEntity> page = movieRepository.findAll(pageable);
 		model.addAttribute("page", page);
+		model.addAttribute("bannerPath", bannerPath);
 		return "index";
+		
 	}
 
 }
